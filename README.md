@@ -1,6 +1,5 @@
 Laptop
 ======
-[![Build Status](https://travis-ci.org/18F/laptop.svg)](https://travis-ci.org/18F/laptop)
 
 Laptop is a script to set up an OS X computer for web development, and to keep
 it up to date.
@@ -34,9 +33,9 @@ and once it appears, press `return` to launch it.
 In your Terminal window, copy and paste the command below, then press `return`.
 
 ```sh
-bash <(curl -s https://raw.githubusercontent.com/18F/laptop/master/laptop)
+bash <(curl -s https://raw.githubusercontent.com/mattjenks/laptop/master/laptop)
 ```
-The [script](https://github.com/18F/laptop/blob/master/mac) itself is
+The [script](https://github.com/mattjenks/laptop/blob/master/mac) itself is
 available in this repo for you to review if you want to see what it does
 and how it works.
 
@@ -160,12 +159,11 @@ What it sets up
 
 * [chruby] for managing [Ruby] versions
 * [CloudApp] for sharing screenshots and making an animated GIF from a video
-* [Cloud Foundry CLI] for command line access to 18F's Cloud Foundry-based application platform
 * [Flux] for adjusting your Mac's display color so you can sleep better
 * [git-seekret] for preventing you from committing passwords and other sensitive information to a git repository
 * [GitHub Desktop] for setting up your SSH keys automatically
 * [Homebrew] for managing operating system libraries
-* [Homebrew Cask] for quickly installing Mac apps from the command line
+* [Homebrew Cask] for quickly installing Mac apps from the command , https://caskroom.github.io/
 * [Homebrew Services] so you can easily stop, start, and restart services
 * [hub] for interacting with the GitHub API
 * [MySQL] for storing relational data
@@ -191,7 +189,7 @@ What it sets up
 [git-seekret]: https://github.com/18F/git-seekret
 [GitHub Desktop]: https://desktop.github.com/
 [Homebrew]: http://brew.sh/
-[Homebrew Cask]: http://caskroom.io/
+[Homebrew Cask]: https://github.com/caskroom/homebrew-cask
 [Homebrew Services]: https://github.com/Homebrew/homebrew-services
 [hub]: https://github.com/github/hub
 [MySQL]: https://www.mysql.com/
@@ -321,7 +319,8 @@ brew install zsh
 Credits
 -------
 
-The 18F laptop script is based on and inspired by
+My script is based on the awesome [18F laptop script](https://github.com/18F/laptop). Which itself 
+is based on and inspired by
 [thoughtbot's laptop](https://github.com/thoughtbot/laptop) script.
 
 ### Public domain

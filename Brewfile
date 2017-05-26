@@ -11,14 +11,13 @@ brew 'postgresql'
 
 brew 'mysql'
 
+brew 'mongodb'
+
 brew 'redis'
 
 brew 'phantomjs'
 
 brew 'hub'
-
-tap 'cloudfoundry/homebrew-tap'
-brew 'cf-cli'
 
 cask 'cloud'
 cask 'flux'
