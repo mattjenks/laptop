@@ -118,6 +118,9 @@ It lets you install the following tools and apps:
 * [1password] - password manager (for managing passowrds across devices other than apple products)
 * [google-drive] - google drive for file sharing (to users other than icloud users)
 * [dropbox] - dropbox for file sharing (to users other than icloud users)
+* [pandora] - music
+* [spotify] - music
+* [kindle] - books
 
 [.laptop.local]: https://github.com/mattjenks/laptop/blob/basiclaptop/.laptop.local
 [Brewfile.local]: https://github.com/mattjenks/laptop/blob/basiclaptop/Brewfile.local
@@ -137,6 +140,9 @@ It lets you install the following tools and apps:
 [docker]: https://www.docker.com/
 [vagrant]: https://www.vagrantup.com/
 [virtualbox]: https://www.virtualbox.org/
+[pandora]: https://www.pandora.com
+[spotify]: https://www.spotify.com/us/
+[kindle]: https://www.amazon.com/kindle-dbs/fd/kcp
 
 Write your customizations such that they can be run safely more than once.
 See the `mac` script for examples.
