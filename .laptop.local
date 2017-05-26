@@ -12,4 +12,4 @@ fi
 
 append_to_file "$HOME/.zshrc" 'export PATH="$PATH:/usr/local/opt/go/libexec/bin"'
 
-fancy_echo "Don't forget to install alicense for IntelliJ!"
+fancy_echo "Don't forget to install a license for IntelliJ!"

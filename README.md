@@ -241,6 +241,14 @@ It lets you install the following tools and apps:
 * [Tmux] for saving project state and switching between projects
 * [Vim] for those who prefer the command line
 * [Spectacle] - automatic window manipulation
+* [1password] - password manager
+* [google-drive] - google drive
+* [google-chrome] - google chrome
+* [dropbox] - dropbox
+* [intellj-idea] - intellij-idea ultimate
+* [docker] - containerization
+* [vagrant] - VM management/scripting
+* [virtualbox] - VM creation
 
 [.laptop.local]: https://github.com/18F/laptop/blob/master/.laptop.local
 [Brewfile.local]: https://github.com/18F/laptop/blob/master/Brewfile.local
@@ -252,6 +260,14 @@ It lets you install the following tools and apps:
 [Tmux]: https://tmux.github.io/
 [Vim]: http://www.vim.org/
 [Spectacle]: https://www.spectacleapp.com/
+[1password]: https://1password.com/
+[google-drive]: https://www.google.com/drive/
+[google-chrome]: https://www.google.com/chrome/
+[dropbox]: https://www.dropbox.com
+[intellj-idea]: https://www.jetbrains.com/idea
+[docker]: https://www.docker.com/
+[vagrant]: https://www.vagrantup.com/
+[virtualbox]: https://www.virtualbox.org/
 
 Write your customizations such that they can be run safely more than once.
 See the `mac` script for examples.

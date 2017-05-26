@@ -2,7 +2,17 @@ cask 'atom'
 cask 'firefox'
 cask 'iterm2'
 cask 'spectacle'
+
+cask '1password'
+cask 'dropbox'
+cask 'google-drive'
+cask 'google-chrome'
+
 cask 'intellij-idea'
+
+cask 'docker'
+cask 'vagrant'
+cask 'virtualbox'
 
 brew 'vim'
 brew 'ctags'
