@@ -58,37 +58,6 @@ if [ ! -d "$HOME/.bin/" ]; then
   mkdir "$HOME/.bin"
 fi
 
-case "$SHELL" in
-  */zsh) :
-    create_zshrc_and_set_it_as_shell_file
-    ;;
-  *)
-    create_bash_profile_and_set_it_as_shell_file
-    if [ -z "$CI" ]; then
-      bold=$(tput bold)
-      normal=$(tput sgr0)
-      echo "Want to switch your shell from the default ${bold}bash${normal} to ${bold}zsh${normal}?"
-      echo "Both work fine for development, and ${bold}zsh${normal} has some extra "
-      echo "features for customization and tab completion."
-      echo "If you aren't sure or don't care, we recommend ${bold}zsh${normal}."
-      echo "Note that you can always switch back to ${bold}bash${normal} if you change your mind."
-      echo "Please see the README for instructions."
-      echo -n "Press ${bold}y${normal} to switch to zsh, ${bold}n${normal} to keep bash: "
-      read -r -n 1 response
-      if [ "$response" = "y" ]; then
-        fancy_echo "=== Getting ready to change your shell to zsh. Please enter your password to continue. ==="
-        echo "=== Note that there won't be visual feedback when you type your password. Type it slowly and press return. ==="
-        echo "=== Press control-c to cancel ==="
-        create_zshrc_and_set_it_as_shell_file
-        chsh -s "$(which zsh)"
-      else
-        fancy_echo "Shell will not be changed."
-      fi
-    else
-      fancy_echo "CI System detected, will not change shells"
-    fi
-    ;;
-esac
 
 brew_is_installed() {
   brew list -1 | grep -Fqx "$1"
@@ -125,7 +94,7 @@ switch_to_latest_ruby() {
   chruby "ruby-$(latest_installed_ruby)"
 }
 
-append_to_file "$shell_file" "alias laptop='bash <(curl -s https://raw.githubusercontent.com/18F/laptop/master/laptop)'"
+append_to_file "$shell_file" "alias laptop='bash <(curl -s https://raw.githubusercontent.com/mattjenks/laptop/basiclaptop/laptop)'"
 
 # shellcheck disable=SC2016
 append_to_file "$shell_file" 'export PATH="$HOME/.bin:$PATH"'
@@ -175,138 +144,6 @@ else
   echo "This is usually due to one of the Mac apps being already installed,"
   echo "in which case, you can ignore these errors."
 fi
-
-# shellcheck disable=SC2016
-append_to_file "$shell_file" 'eval "$(hub alias -s)"'
-
-fancy_echo 'Checking on Node.js installation...'
-
-if ! brew_is_installed "node"; then
-  if command -v n > /dev/null; then
-    fancy_echo "We recommend using \`nvm\` and not \`n\`."
-    fancy_echo "See https://pages.18f.gov/frontend/#install-npm"
-  elif ! command -v nvm > /dev/null; then
-    fancy_echo 'Installing nvm and lts Node.js and npm...'
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    # shellcheck source=/dev/null
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm install node --lts
-  else
-    fancy_echo 'version manager detected.  Skipping...'
-  fi
-else
-  brew bundle --file=- <<EOF
-  brew 'node'
-EOF
-fi
-
-fancy_echo '...Finished Node.js installation checks.'
-
-
-fancy_echo 'Checking on Python installation...'
-
-if ! brew_is_installed "python3"; then
-  brew bundle --file=- <<EOF
-  brew 'pyenv'
-  brew 'pyenv-virtualenv'
-  brew 'pyenv-virtualenvwrapper'
-EOF
-  # shellcheck disable=SC2016
-  append_to_file "$shell_file" 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi'
-  # shellcheck disable=SC2016
-  append_to_file "$shell_file" 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi'
-
-  # pyenv currently doesn't have a convenience version to use, e.g., "latest",
-  # so we check for the latest version against Homebrew instead.
-  latest_python_3="$(brew info python3 | egrep -o "3\.\d+\.\d+" | head -1)"
-
-  if ! pyenv versions | ag "$latest_python_3" > /dev/null; then
-    pyenv install "$latest_python_3"
-    pyenv global "$latest_python_3"
-    pyenv rehash
-  fi
-else
-  brew bundle --file=- <<EOF
-  brew 'python3'
-EOF
-fi
-
-if ! brew_is_installed "pyenv-virtualenvwrapper"; then
-  if ! pip3 list | ag "virtualenvwrapper" > /dev/null; then
-    fancy_echo 'Installing virtualenvwrapper...'
-    pip3 install virtualenvwrapper
-    append_to_file "$shell_file" 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
-    append_to_file "$shell_file" 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
-    append_to_file "$shell_file" 'source /usr/local/bin/virtualenvwrapper.sh'
-  fi
-fi
-
-fancy_echo '...Finished Python installation checks.'
-
-
-fancy_echo 'Checking on Ruby installation...'
-
-append_to_file "$HOME/.gemrc" 'gem: --no-document'
-
-if command -v rbenv >/dev/null || command -v rvm >/dev/null; then
-  fancy_echo 'We recommend chruby and ruby-install over RVM or rbenv'
-else
-  if ! brew_is_installed "chruby"; then
-    fancy_echo 'Installing chruby, ruby-install, and the latest Ruby...'
-
-    brew bundle --file=- <<EOF
-    brew 'chruby'
-    brew 'ruby-install'
-EOF
-
-    append_to_file "$shell_file" 'source /usr/local/share/chruby/chruby.sh'
-    append_to_file "$shell_file" 'source /usr/local/share/chruby/auto.sh'
-
-    ruby-install ruby
-
-    append_to_file "$shell_file" "chruby ruby-$(latest_installed_ruby)"
-
-    switch_to_latest_ruby
-  else
-    brew bundle --file=- <<EOF
-    brew 'chruby'
-    brew 'ruby-install'
-EOF
-    fancy_echo 'Checking if a newer version of Ruby is available...'
-    switch_to_latest_ruby
-
-    ruby-install --latest > /dev/null
-    latest_stable_ruby="$(cat < "$HOME/.cache/ruby-install/ruby/stable.txt" | tail -n1)"
-
-    if ! [ "$latest_stable_ruby" = "$(latest_installed_ruby)" ]; then
-      fancy_echo "Installing latest stable Ruby version: $latest_stable_ruby"
-      ruby-install ruby
-    else
-      fancy_echo 'You have the latest version of Ruby'
-    fi
-  fi
-fi
-
-fancy_echo 'Updating Rubygems...'
-gem update --system
-
-gem_install_or_update 'bundler'
-
-fancy_echo "Configuring Bundler ..."
-number_of_cores=$(sysctl -n hw.ncpu)
-bundle config --global jobs $((number_of_cores - 1))
-
-fancy_echo '...Finished Ruby installation checks.'
-
-if app_is_installed 'GitHub'; then
-  fancy_echo "It looks like you've already configured your GitHub SSH keys."
-  fancy_echo "If not, you can do it by signing in to the GitHub app on your Mac."
-elif [ ! -f "$HOME/.ssh/github_rsa.pub" ]; then
-  open ~/Applications/GitHub\ Desktop.app
-fi
-
-curl -s https://raw.githubusercontent.com/18F/laptop/master/seekrets-install | sh -
 
 if [ -f "$HOME/.laptop.local" ]; then
   # shellcheck source=/dev/null

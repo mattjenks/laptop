@@ -1,7 +1,7 @@
 Laptop
 ======
 
-Laptop is a script to set up an OS X computer for web development, and to keep
+Laptop is a script to set up an OS X computer, and to keep
 it up to date.
 
 It can be run multiple times on the same machine safely.
@@ -33,152 +33,31 @@ and once it appears, press `return` to launch it.
 In your Terminal window, copy and paste the command below, then press `return`.
 
 ```sh
-bash <(curl -s https://raw.githubusercontent.com/mattjenks/laptop/master/laptop)
+bash <(curl -s https://raw.githubusercontent.com/mattjenks/laptop/basiclaptop/laptop)
 ```
-The [script](https://github.com/mattjenks/laptop/blob/master/mac) itself is
-available in this repo for you to review if you want to see what it does
-and how it works.
-
-Note that the script will ask you to enter your OS X password at various
-points. This is the same password that you use to log in to your Mac.
-If you don't already have it installed, GitHub for Mac will launch
-automatically at the end of the script so you can set up everything you'll
-need to push code to GitHub.
 
 **Once the script is done, make sure to quit and relaunch Terminal.**
-
-More [detailed instructions with a video][video] are available in the Wiki.
 
 It is highly recommended to run the script regularly to keep your computer
 up to date. Once the script has been installed, you'll be able to run it
 at your convenience by typing `laptop` and hitting `return` in your Terminal.
 
 [Spotlight]: https://support.apple.com/en-us/HT204014
-[video]: https://github.com/18F/laptop/wiki/Detailed-installation-instructions-with-video
-
-### Want to install just git-seekret?
-In your terminal window, copy and paste the following line, and press `return`:
-```sh
-curl -s https://raw.githubusercontent.com/18F/laptop/master/seekrets-install | bash -
-```
-Note that the script may ask you to enter your password. This is the same password that you use to log in to your computer.
-
-**git-seekret will install global git hooks into ~/.git-support/hooks.   To restore pre-existing git hooks, it is recommended to save pre-existing hooks into a seperate directory and to copy those hooks into ~/.git-support/hooks after git-seekret is installed.**
-
-Development
------------
-
-### Git Seekret
-
-This section covers contributing and developing new rulesets for `git-seekrets`.
-
-The rules installed by the `seekret-install` script are located in the `seekret-rules` directory at the root of this repository.  Inside each rule file is a list of rules.  The rule file can be considered a tree with the rules as the leaves of the tree.
-
-An example rule file is below:
-
-```yaml
-thing_to_match:
-  match: r[egx]{2,}p?
-  unmatch:
-    - some_prefix\s*r[egx]{2,}p?
-    - r[egx]{2,}p?\s*some_suffix
-```
-
-Using the example above, let's break down each stanza:
-
-- `thing_to_match` : The name of the rule we'd like to match / unmatch. This can be anything that makes sense for the `.rule` file being created / edited.
-- `match` : A single regular expression which will be used to match any rules for the name above.
-- `unmatch` : A list of regular expressions which will be used to unmatch anything that the `match` rule matches.
-
-Feel free to submit an issue/create a pull request in order to submit a new ruleset or to apply a modifification to an existing ruleset.
-
-#### Testing Git Seekrets
-
-You can test secret rulesets using BATS for automated testing and manually using the installation script.
-
-##### Let's talk about BATS
-
-Please read the [local BATS documentation](./test).
-
-##### Let's talk about local manual testing
-
-To install the `*.rule` files located in the repo, just run the installation script locally. This will update your local `~/.git-support/seekret-rules` directory with the changes in this repository.
-
-```shell
-./seekrets-install
-```
-
-You should now be able to run the check within any repository on your machine.
-
-```shell
-git seekret check -c 0 # check for secrets within commit history
-```
-
-```shell
-git seekret check -s # check for secrets within staged files
-```
-
-**Don't forget to add the rule to `SEEKRET_DEFAULT_RULES` if your PR for a new rule is accepted**
-
-```shell
-SEEKRET_DEFAULT_RULES=" # <= default ruleset if installed via curl
- aws.rule
- newrelic.rule
- mandrill.rule
- new.rule"
-```
 
 Debugging
 ---------
 
 Your last Laptop run will be saved to `~/laptop.log`. Read through it to see if
-you can debug the issue yourself. If not, copy and paste the entire log into a
-[new GitHub Issue](https://github.com/18F/laptop/issues/new) for us.
-
-#### Git Seekrets False Positives
-
-Sometimes the `git-seekrets` rules may indicate a false positive and match
-things that aren't actually secrets. This can happen if the regular
-expressions used to `match` and `unmatch` are too strict.
-
-Make sure you have [the latest rulesets from this repository by running the
-git-seekrets installation script](#want-to-install-just-git-seekret).
-
-If the ruleset is still triggering a false positive, please open an issue
-(or a pull request if you know how to fix the regular expression), and
-include the text that is being treated as a false positive, along with the
-rules installed on your computer. Please run this command to output
-your current rules, then copy and paste them into the GitHub issue:
-
-```shell
-cat ~/.git-support/seekret-rules/*.rule
-```
+you can debug the issue yourself. 
 
 What it sets up
 ---------------
 
-* [chruby] for managing [Ruby] versions
-* [CloudApp] for sharing screenshots and making an animated GIF from a video
 * [Flux] for adjusting your Mac's display color so you can sleep better
-* [git-seekret] for preventing you from committing passwords and other sensitive information to a git repository
-* [GitHub Desktop] for setting up your SSH keys automatically
 * [Homebrew] for managing operating system libraries
 * [Homebrew Cask] for quickly installing Mac apps from the command , https://caskroom.github.io/
-* [Homebrew Services] so you can easily stop, start, and restart services
-* [hub] for interacting with the GitHub API
-* [MySQL] for storing relational data
-* [nvm] for managing Node.js versions if you do not have [Node.js] already installed (Includes latest [Node.js] and [NPM], for running apps and installing JavaScript packages)
-* [PhantomJS] for headless website testing
-* [Postgres] for storing relational data
-* [pyenv] for managing Python versions if you do not have [Python] already installed (includes the latest 3.x [Python])
-* [Redis] for storing key-value data
-* [ruby-install] for installing different versions of Ruby
-* [Slack] for communicating with your team
-* [Sublime Text 3] for coding all the things
 * [The Silver Searcher] for finding things in files
-* [Virtualenv] for creating isolated Python environments (via [pyenv] if it is installed)
-* [Virtualenvwrapper] for extending Virtualenv (via [pyenv] if it is installed)
-* [Zsh] as your shell
+* [google-chrome] a good web browser
 
 
 [Bundler]: http://bundler.io/
@@ -227,31 +106,21 @@ you can use to get started.
 cd ~
 
 # Download the sample files to your computer
-curl --remote-name https://raw.githubusercontent.com/18F/laptop/master/.laptop.local
-curl --remote-name https://raw.githubusercontent.com/18F/laptop/master/Brewfile.local
+curl --remote-name https://raw.githubusercontent.com/mattjenks/laptop/basiclaptop/.laptop.local
+curl --remote-name https://raw.githubusercontent.com/matthjenks/laptop/basiclaptop/Brewfile.local
 ```
 
 It lets you install the following tools and apps:
 
-* [Atom] - GitHub's open source text editor
-* [Exuberant Ctags] for indexing files for vim tab completion
 * [Firefox] for testing your website on a browser other than Chrome
 * [iTerm2] - an awesome replacement for the OS X Terminal
-* [reattach-to-user-namespace] to allow copy and paste from Tmux
-* [Tmux] for saving project state and switching between projects
-* [Vim] for those who prefer the command line
 * [Spectacle] - automatic window manipulation
-* [1password] - password manager
-* [google-drive] - google drive
-* [google-chrome] - google chrome
-* [dropbox] - dropbox
-* [intellj-idea] - intellij-idea ultimate
-* [docker] - containerization
-* [vagrant] - VM management/scripting
-* [virtualbox] - VM creation
+* [1password] - password manager (for managing passowrds across devices other than apple products)
+* [google-drive] - google drive for file sharing (to users other than icloud users)
+* [dropbox] - dropbox for file sharing (to users other than icloud users)
 
-[.laptop.local]: https://github.com/18F/laptop/blob/master/.laptop.local
-[Brewfile.local]: https://github.com/18F/laptop/blob/master/Brewfile.local
+[.laptop.local]: https://github.com/mattjenks/laptop/blob/basiclaptop/.laptop.local
+[Brewfile.local]: https://github.com/mattjenks/laptop/blob/basiclaptop/Brewfile.local
 [Atom]: https://atom.io/
 [Exuberant Ctags]: http://ctags.sourceforge.net/
 [Firefox]: https://www.mozilla.org/en-US/firefox/new/
@@ -274,63 +143,6 @@ See the `mac` script for examples.
 
 Laptop functions such as `fancy_echo` and `gem_install_or_update` can be used
 in your `~/.laptop.local`.
-
-How to manage background services (Redis, Postgres, MySQL)
-----------------------------------------------------------
-The script does not automatically launch these services after installation
-because you might not need or want them to be running. With Homebrew Services,
-starting, stopping, or restarting these services is as easy as:
-
-```
-brew services start|stop|restart [name of service]
-```
-
-For example:
-
-```
-brew services start redis
-```
-
-To see a list of all installed services:
-
-```
-brew services list
-```
-
-To start all services at once:
-
-```
-brew services start --all
-```
-
-How to switch your shell back to bash from zsh (or vice versa)
---------------------------------------------------------------
-1. Find out which shell you're currently running: `echo $SHELL`
-2. Find out the location of the shell you want to switch to. For example, if
-   you want to switch to `bash`, run `which bash`.
-3. Verify if the shell location is included in `/etc/shells`.
-   Run `cat /etc/shells` to see the contents of the file.
-4. If the location of the shell is included, run
-   `chsh -s [the location of the shell]`.
-   For example, if `which bash` returned `/bin/bash`, you would run
-  `chsh -s /bin/bash`.
-
-   If the location of the shell is not in `/etc/shells`, add it, then run the
-   `chsh` command.
-   If you have Sublime Text, you can open the file by running
-   `subl /etc/shells`.
-5. Quit and restart Terminal (or iTerm2), or open a new tab for the new shell
-   to take effect.
-
-Whether you're using bash or zsh, we recommend installing the latest versions
-with Homebrew because the versions that came with your Mac are really old.
-```
-brew install bash
-```
-or
-```
-brew install zsh
-```
 
 Credits
 -------
